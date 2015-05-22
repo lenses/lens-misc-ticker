@@ -1,0 +1,16 @@
+{
+  "name": "lens-misc-ticker",
+  "version": "0.0.0",
+  "keywords": "lenses, polymer, web-components, data visualization",
+  "license": "MIT",
+  "main": "lens-misc-ticker.html",
+  "dependencies": {
+    "core-component-page" : "Polymer/core-component-page#^0.5.5",
+    "core-input" : "Polymer/core-input#^0.5.5",
+    "core-selector" : "Polymer/core-selector#^0.5.5",
+    "polymer": "Polymer/polymer#~0.5.1"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^1.4.2"
+  }
+}

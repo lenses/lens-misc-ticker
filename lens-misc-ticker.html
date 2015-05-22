@@ -1,0 +1,86 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-input/core-input.html">
+<link rel="import" href="../core-selector/core-selector.html">
+
+<!--
+A Thelma component for input
+
+##### Example
+
+    <lens-misc-ticker></lens-misc-ticker>
+
+@element lens-misc-ticker
+@blurb A Thelma component
+@status alpha
+@author Lenses team
+@homepage http://lenses.github.io/lens-misc-ticker
+-->
+
+<polymer-element name="lens-misc-ticker" attributes="output">
+
+  <template>
+    <link rel="stylesheet" href="lens-misc-ticker.css">
+    <div class="th-container">
+	    <label class="label">Interval</label>
+    	<input type="text" id="interval" is="core-input" committedValue="{{interval}}">		
+      <core-selector class="selector" selected="{{intervalMult}}" valueattr="label">
+          <template repeat="{{unit in _intervalUnitOptions}}">
+            <div class="col" label="{{unit.mills}}">{{unit.label}}</div>
+          </template> 
+      </core-selector>
+    </div>
+  </template>
+  <script>
+    Polymer('lens-misc-ticker', {
+      /**
+       * Output data
+       *
+       * @property output
+       * @type object
+       * @default undefined
+       */
+      output: undefined,
+
+      interval: 2,
+      intervalMult: 1000,
+      _intervalUnitOptions: [
+        {label: 'milliseconds', mills: 1},
+        {label: 'seconds', mills: 1000},
+        {label: 'minutes', mills: 60000},
+        {label: 'hours', mills: 3600000},
+        {label: 'days', mills: 86400000},
+      ],
+      _intervalObj: null,
+
+      // Observe changes on below attributes and trigger _calculateOutput() when changed
+      observe: {
+         interval: "_setIntervalObject",
+         intervalMult: "_setIntervalObject",
+      },
+
+      ready: function () {
+        this.$.interval.value = this.interval;
+        this.output = true;
+        this._setIntervalObject();
+      },
+
+      _setIntervalObject: function() {
+        var time = this.interval * parseInt(this.intervalMult);
+        console.log('time', time);
+        if(this._intervalObj) {
+          clearInterval(this._intervalObj);
+        }
+        this._intervalObj = setInterval(function() {
+          this.output = !this.output;
+          console.log('output', this.output);
+
+        }.bind(this), time);
+      },
+
+      outputChanged: function(){
+        //this.fire('lens-output-ready', this);
+      }
+
+    });
+  </script>
+</polymer-element>
